@@ -63,3 +63,32 @@ export const create = async (req, res) => {
         });
     }
 };
+
+export const remove = async (req, res) => {
+    try {
+        const postId = req.params.id;
+
+        PostModel.findOneAndDelete(
+            {
+                _id: postId,
+            },
+            (err, doc) => {
+                if (err) {
+                    return res.status(500).json({
+                        message: "Не удалось удалить статью",
+                    });
+                }
+
+                if (!doc) {
+                    return res.status(404).json({
+                        message: "Статья не найдена",
+                    });
+                }
+
+                res.json({ message: true });
+            }
+        );
+    } catch (error) {
+        res.status(500).json({ message: "Не удалось получить одну статью" });
+    }
+};

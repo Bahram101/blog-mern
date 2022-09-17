@@ -26,12 +26,12 @@ app.post("/auth/login", loginValidation, UserController.login);
 app.get("/auth/me", checkAuth, UserController.getMe);
 
 app.post("/posts", checkAuth, postCreateValidation, PostController.create);
-app.get("/posts", PostController.getAll)
-app.get("/posts/:id", PostController.getOne)
-// app.delete("/posts", PostController.remove)
+app.get("/posts", PostController.getAll);
+app.get("/posts/:id", PostController.getOne);
+app.delete("/posts/:id", checkAuth, PostController.remove);
 // app.patch("/posts", PostController.update)
 
-app.listen(4444, (err) => {
+app.listen(3000, (err) => {
     if (err) {
         return console.log("err");
     }
