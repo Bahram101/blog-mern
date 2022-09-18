@@ -92,3 +92,26 @@ export const remove = async (req, res) => {
         res.status(500).json({ message: "Не удалось получить одну статью" });
     }
 };
+
+export const update = async (req, res) => {
+    try {
+        const postId = req.params.id;
+        await PostModel.updateOne(
+            {
+                _id: postId,
+            },
+            {
+                title: req.body.title,
+                text: req.body.text,
+                imageUrl: req.body.imageUrl,
+                tags: req.body.tags,
+                user: req.userId,
+            }
+        );
+        res.json({ message: true });
+    } catch (error) {
+        res.json({
+            message: "Не удалось обновить статью",
+        });
+    }
+};
