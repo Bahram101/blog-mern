@@ -3,7 +3,7 @@ import bcrypt from "bcrypt";
 
 import UserModel from "../models/User.js";
 
-export const getAll = async (req,res)=>{
+export const getAll = async (req, res) => {
     try {
         const users = await UserModel.find();
         res.json(users);
@@ -12,7 +12,28 @@ export const getAll = async (req,res)=>{
             message: "Не удалось плучить пользователей",
         });
     }
-}
+};
+
+export const update = async (req, res) => {
+    try {
+        const userId = req.params.id;
+        await UserModel.updateOne(
+            {
+                _id: userId,
+            },
+            {
+                fullName: req.body.fullName,
+                email: req.body.email,
+                avatarUrl: req.body.avatarUrl,
+            }
+        );
+        res.json({ message: true });
+    } catch (error) {
+        res.json({
+            message: "Не удалось обновить данные",
+        });
+    }
+};
 
 export const register = async (req, res) => {
     try {
@@ -89,6 +110,7 @@ export const login = async (req, res) => {
 export const getMe = async (req, res) => {
     try {
         const user = await UserModel.findById(req.userId);
+
         if (!user) {
             return res.status(404).json({
                 message: "Пользователь не найден",
