@@ -3,6 +3,17 @@ import bcrypt from "bcrypt";
 
 import UserModel from "../models/User.js";
 
+export const getAll = async (req,res)=>{
+    try {
+        const users = await UserModel.find();
+        res.json(users);
+    } catch (error) {
+        res.status(500).json({
+            message: "Не удалось плучить пользователей",
+        });
+    }
+}
+
 export const register = async (req, res) => {
     try {
         const password = req.body.password;

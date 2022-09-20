@@ -48,12 +48,12 @@ app.post(
     UserController.login
 );
 app.get("/auth/me", checkAuth, UserController.getMe);
-
 app.post("/upload", checkAuth, upload.single("image"), (req, res) => {
     res.json({
         url: `/uploads/${req.file.originalname}`,
     });
 });
+app.get("/users", UserController.getAll);
 
 app.get("/posts", PostController.getAll);
 app.get("/posts/:id", PostController.getOne);
